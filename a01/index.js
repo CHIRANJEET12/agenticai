@@ -73,10 +73,13 @@ const tool = {
 
 const message = [{ role: "system", content: SYSTEM_PROMPT }];
 
+const conversation_history = [];
+
 while (true) {
   const query = readlineSync.question(">> ");
   const q = { type: "user", user: query };
   message.push({ role: "user", content: JSON.stringify(q) });
+  conversation_history.push({role: "converse_assistant", content: JSON.stringify(q)});
 
   while (true) {
     const chat = await client.chat.completions.create({
@@ -98,6 +101,7 @@ while (true) {
 
     if (call.type === "output") {
       console.log(`${call.output}`)
+      console.log(conversation_history);
       break;
     } else if (call.type === "action") {
       console.log("TOOL CALLED:", call.function, call.input);
@@ -112,12 +116,10 @@ while (true) {
       console.log("------------------action--------------------")
       const obs = { "type": "observation", "observation": observation };
       message.push({ role: "assistant", content: JSON.stringify(obs) });
+      
     }
   }
 }
-
-
-
 
 
 
