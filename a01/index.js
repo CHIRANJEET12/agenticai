@@ -111,7 +111,7 @@ while (true) {
 
       console.log("------------------action--------------------")
       const obs = { "type": "observation", "observation": observation };
-      message.push({ role: "user", content: JSON.stringify(obs) });
+      message.push({ role: "assistant", content: JSON.stringify(obs) });
     }
   }
 }
